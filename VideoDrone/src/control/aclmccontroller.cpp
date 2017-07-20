@@ -91,6 +91,7 @@ void ACLMCController::GenerateControl(){
     Fb_test.fill(0.0);
     F_i.fill(0.0);
     F_b.fill(0.0);
+
     boost::math::quaternion<float> q_psi_convert(cos(psi_d/2),0,0,sin(psi_d/2));
 
     desiredr_dot = (desiredr-desiredr_prev)*(1/dT);
@@ -116,7 +117,7 @@ void ACLMCController::GenerateControl(){
     Fbar_i = F_i/norm(F_i,2);
     Fbar_b = F_b/norm(F_b,2);
 
-    // f_total = norm(F_i,2);
+    f_total = norm(F_i,2);
 
     q_d.R_component_1() = 1+ dot(Fbar_i,Fbar_b);
     q_d.R_component_2() = cross(Fbar_i, Fbar_b)(0);
@@ -130,5 +131,5 @@ void ACLMCController::GenerateControl(){
 
     q_e = conj(q_imu)*q_d;
 
-    //M_b = -sgn(q_e.R_component_1())*Kp*q_e(1,2,3);
+    M_b = -sgn(q_e.R_component_1())*Kp*q_e(1,2,3);
 }
