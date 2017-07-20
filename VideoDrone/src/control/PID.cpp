@@ -1,4 +1,4 @@
-/* FileName: Controller.cpp
+/* FileName: PID.cpp
 Created by Rakshit Allamraju
 Date 30 June 2017
 
@@ -7,7 +7,7 @@ in this project
 
 */
 
-#include "../../include/control/Controller.h"
+#include "../../include/control/PID.h"
 
 PID::PID(){
     dT = 0.0;
