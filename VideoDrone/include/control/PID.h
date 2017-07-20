@@ -26,6 +26,7 @@ class PID{
         float output;
 
     public:
+	void setDt(float dt);
         void setKp(float kp);
         void setKi(float ki);
         void setKd(float kd);
