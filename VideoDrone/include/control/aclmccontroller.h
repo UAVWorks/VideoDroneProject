@@ -10,7 +10,7 @@
 #ifndef ACLMCCONTROLLER_H
 #define ACLMCCONTROLLER_H
 
-#include <stdio>
+#include <stdio.h>
 #include <math.h>
 #include "armadillo"
 #include <boost/math/quaternion.hpp>
@@ -27,6 +27,9 @@ private:
     float psi_d;
     arma::colvec r_fb;
     arma::colvec e, e_dot;
+
+    float f_total;
+    arma::colvec M_b;
 
     boost::math::quaternion<float> q_imu, q_d, q_e;
     arma::colvec Fbar_i, Fbar_b;

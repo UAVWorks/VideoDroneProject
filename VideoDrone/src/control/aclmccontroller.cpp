@@ -128,4 +128,7 @@ void ACLMCController::GenerateControl(){
     q_d *= q_psi_convert; // desired attitude
 
 
+    q_e = conj(q_imu)*q_d;
+
+    //M_b = -sgn(q_e.R_component_1())*Kp*q_e(1,2,3);
 }
