@@ -5,8 +5,8 @@ Date 10 July 2017
 Thread to run the IMU and GPS data using the BERRYGPSIMU module for the rPI and write to a global variable
 */
 
-#include "sensor.c"
 #include "../../include/imu/BerryGPSIMU.h"
+#include "sensor.c"
 
 #define DT 0.02         // [s/loop] loop period. 20ms
 #define AA 0.97         // complementary filter constant
@@ -35,27 +35,11 @@ void  INThandler(int sig)
         exit(0);
 }
 
-int mymillis()
-{
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return (tv.tv_sec) * 1000 + (tv.tv_usec)/1000;
-}
-
-int timeval_subtract(struct timeval *result, struct timeval *t2, struct timeval *t1)
-{
-    long int diff = (t2->tv_usec + 1000000 * t2->tv_sec) - (t1->tv_usec + 1000000 * t1->tv_sec);
-    result->tv_sec = diff / 1000000;
-    result->tv_usec = diff % 1000000;
-    return (diff<0);
-}
-
-
 void* readGPSIMU()
 {
+        bool KALMAN_ON(true);
 
         // add GPS serial communicationcode
-
         float rate_gyr_y = 0.0;   // [deg/s]
         float rate_gyr_x = 0.0;    // [deg/s]
         float rate_gyr_z = 0.0;     // [deg/s]
