@@ -1,14 +1,23 @@
 #ifndef SENSORFNC_H
 #define SENSORFNC_H
 
-#include <stdio>
+#include <stdio.h>
 #include <math.h>
 #include "armadillo"
-#include <boost/math/quaternion.hpp>
+#include <Eigen/Geometry>
+#include <Eigen/Dense>
 
 #include "../../include/globals/globalstruct.h"
 
-void EulertoQuaternion(double roll, double pitch, double yaw, quaternion<double> Q);
-void gps2ned(float gps_current[3], home myHome, float NED[3]);
+using namespace Eigen;
+
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
+void EulertoQuaternion(double roll, double pitch, double yaw, Quaternionf Q);
+void gps2ned(float gps_current[3], home myHome, Vector3f NED);
+
+
 
 #endif // SENSORFNC_H
