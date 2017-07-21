@@ -7,13 +7,15 @@
  * Control algorithm designed by Mark Culter from MIT ACL labs
  */
 
-#ifndef ACLMCCONTROLLER_H
-#define ACLMCCONTROLLER_H
+#pragma once
 
 #include <stdio.h>
 #include <math.h>
-#include "armadillo"
-#include <boost/math/quaternion.hpp>
+#include "../globals/global.h"
+#include <Eigen/Geometry>
+#include <Eigen/Dense>
+
+#include "../../include/imu/sensorfnc.h"
 
 class ACLMCController{
 private:
@@ -21,26 +23,31 @@ private:
     ~ACLMCController();
 
     double mass, dT;
-    arma::colvec r, r_dot, r_ddot;
-    arma::colvec desiredr, desiredr_dot, desiredr_ddot;
-    arma::colvec desiredr_prev, desiredr_dot_prev, desiredr_ddot_prev;
-    float psi_d;
-    arma::colvec r_fb;
-    arma::colvec e, e_dot;
+    Eigen::Matrix3f kp, kd, Kp, Kd;
+    Eigen::Vector3f r, r_dot, r_ddot;
+    Eigen::Vector3f desiredr, desiredr_dot, desiredr_ddot, desiredr_dddot;
+    Eigen::Vector3f desiredr_prev, desiredr_dot_prev, desiredr_ddot_prev;
+    float psi_d, psi_d_prev;
+    Eigen::Vector3f r_fb;
+    Eigen::Vector3f e, e_dot;
+    Eigen::Vector3f Omega;
 
     float f_total;
-    arma::colvec M_b;
+    Eigen::Vector3f M_b;
 
-    boost::math::quaternion<float> q_imu, q_d, q_e;
-    arma::colvec Fbar_i, Fbar_b;
-    arma::colvec gravity_vec;
+    Eigen::Quaternionf q_imu, q_d, q_e;
+
+    Eigen::Vector3f Fbar_i, Fbar_b, Fdot_i, F_i_prev;
+    Eigen::Vector3f gravity_vec;
 
 public:
     void PrintDetails();
+    void setPosKp(Eigen::Matrix3f);
+    void setPosKd(Eigen::Matrix3f);
+    void setAttKp(Eigen::Matrix3f);
+    void setAttKd(Eigen::Matrix3f);
     void loadDesired(float r_d[3], float psi_d);
-    void loadGPSIMU(float GPS[3], float IMU[3]);
+    void loadGPSIMU(float GPS[3], float IMU[3], float W[3], home myHome);
     void GenerateControl();
 
 };
-
-#endif // ACLMCCONTROLLER_H
