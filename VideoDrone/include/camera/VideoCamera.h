@@ -6,5 +6,5 @@ Camera Headers
 Downlink camera data to the app
 */
 
-void* RunCamera()
+void* RunCamera();
 
