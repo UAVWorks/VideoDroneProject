@@ -16,6 +16,8 @@ using namespace std;
 using namespace cv;
 #include "../../include/camera/config.h"
 
+#define CAMERAPORT "12000"
+
 void* RunCamera(){
 
     //raspicam::RaspiCam_Cv Camera;
