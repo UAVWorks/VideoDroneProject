@@ -53,12 +53,22 @@ void ACLMCController::loadDesired(float desired_loc[3], float desired_psi){
     psi_d = desired_psi;
 }
 
+void ACLMCController::setMap(float d, float c){
+    ThrustMap(0,0) = 1;ThrustMap(0,1) = 1;ThrustMap(0,2)=1;ThrustMap(0,3)=1;
+    ThrustMap(1,0) = d;ThrustMap(1,1) = 0;ThrustMap(1,2)=-d;ThrustMap(1,3)=0;
+    ThrustMap(2,0) = 0;ThrustMap(2,1) = d;ThrustMap(2,2)=0;ThrustMap(2,3)=-d;
+    ThrustMap(3,0) = -c;ThrustMap(3,1) = c;ThrustMap(3,2)=-c;ThrustMap(3,3)=c;
+
+}
+
 void ACLMCController::GenerateControl(){
 
     Eigen::Vector3f F_i, F_b;
     Eigen::Vector3f Fb_test;
     Eigen::Vector3f Fbardot_i, Omega_d;
+
     float psidot_d;
+
     Eigen::Quaternionf Q_psid;
     Q_psid.w() = cos(psi_d/2);
     Q_psid.vec()(2) = sin(psi_d/2);
@@ -108,8 +118,14 @@ void ACLMCController::GenerateControl(){
 
     Omega_d(0) = Fbar_i.cross(Fbardot_i)(0);
     Omega_d(1) = Fbar_i.cross(Fbardot_i)(1);
-    Omega_d(2) =psidot_d;
+    Omega_d(2) = psidot_d;
 
     M_b = -sgn(q_e.w())*Kp*q_e.vec() - Kd*(Omega - Omega_d);
 
     }
+
+
+void ACLMCController::getThrusts(float f_total, Eigen::Vector3f){
+
+
+}

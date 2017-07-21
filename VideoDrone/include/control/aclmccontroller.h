@@ -23,6 +23,7 @@ private:
     ~ACLMCController();
 
     double mass, dT;
+    Eigen::Matrix4f ThrustMap;
     Eigen::Matrix3f kp, kd, Kp, Kd;
     Eigen::Vector3f r, r_dot, r_ddot;
     Eigen::Vector3f desiredr, desiredr_dot, desiredr_ddot, desiredr_dddot;
@@ -46,8 +47,10 @@ public:
     void setPosKd(Eigen::Matrix3f);
     void setAttKp(Eigen::Matrix3f);
     void setAttKd(Eigen::Matrix3f);
+    void setMap(float armlength, float dragcoeff);
     void loadDesired(float r_d[3], float psi_d);
     void loadGPSIMU(float GPS[3], float IMU[3], float W[3], home myHome);
+    void getThrusts(float f_total, Eigen::Vector3f);
     void GenerateControl();
 
 };
